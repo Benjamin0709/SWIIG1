@@ -9,6 +9,7 @@ Frontend del proyecto de desarrollo web, construido con **React (Vite)** y **Tai
 - Tailwind CSS
 - PostCSS con @tailwindcss/postcss y autoprefixer
 - Node.js y npm
+- MongoDB
 
 ## Instalación
 
