@@ -32,7 +32,7 @@ const Home = () => {
   return (
     <div className="bg-gray-100 min-h-screen">
 
-      {/* 🔥 CAROUSEL */}
+      {/* CAROUSEL */}
       <div className="flex justify-center mt-6 md:mt-10 px-4">
         <div className="w-full md:w-[90%] lg:w-[80%] max-w-6xl rounded-xl overflow-hidden shadow-xl relative">
 
@@ -67,7 +67,7 @@ const Home = () => {
             ))}
           </div>
 
-          {/* 🔘 INDICADORES */}
+          {/* INDICADORES */}
           <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
             {slides.map((_, i) => (
               <div
@@ -83,7 +83,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* 🧠 INFO */}
+      {/* INFO */}
       <section className="py-10 md:py-16 px-4 md:px-6 max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-10 items-center">
         
         <img
@@ -112,7 +112,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 🔘 BOTONES */}
+      {/* BOTONES */}
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 pb-12 md:pb-16 px-4">
         
         <button className="w-full sm:w-auto bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-600 transition">
