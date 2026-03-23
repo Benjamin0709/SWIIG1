@@ -1,25 +1,39 @@
-const services = [
-  "Gestión de citas psicológicas",
-  "Videos de coaching",
-  "Marketing digital",
-  "Videos promocionales"
-];
-
 const Services = () => {
-  return (
-    <div className="py-16 px-6 text-center bg-gray-100">
-      
-      <h2 className="text-3xl font-bold mb-10 text-gray-800">
-        Servicios
-      </h2>
+  const servicios = [
+    {
+      titulo: "Coaching Personal",
+      desc: "Desarrolla tu máximo potencial con acompañamiento profesional."
+    },
+    {
+      titulo: "Apoyo Psicológico",
+      desc: "Espacio seguro para trabajar emociones y bienestar mental."
+    },
+    {
+      titulo: "Gestión del Estrés",
+      desc: "Aprende técnicas efectivas para mejorar tu calidad de vida."
+    }
+  ];
 
-      <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
-        {services.map((service, index) => (
-          <div
-            key={index}
-            className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition"
+  return (
+    <div id="services" className="text-center">
+
+      <h3 className="text-3xl font-bold text-gray-800 mb-10">
+        Nuestros Servicios
+      </h3>
+
+      <div className="grid md:grid-cols-3 gap-8">
+        {servicios.map((s, i) => (
+          <div 
+            key={i}
+            className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition"
           >
-            <p className="text-gray-700 font-medium">{service}</p>
+            <h4 className="text-xl font-semibold mb-3 text-gray-800">
+              {s.titulo}
+            </h4>
+
+            <p className="text-gray-600">
+              {s.desc}
+            </p>
           </div>
         ))}
       </div>

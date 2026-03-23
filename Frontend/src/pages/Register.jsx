@@ -1,17 +1,63 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const [nombre, setNombre] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({
+    nombre: "",
+    rut: "",
+    email: "",
+    telefono: "",
+    password: ""
+  });
+
   const [msg, setMsg] = useState("");
 
-  const navigate = useNavigate();
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
+  };
 
-  const handleRegister = async (e) => {
+  const validar = () => {
+    const { nombre, rut, email, telefono, password } = form;
+
+    const nombreRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+    const rutRegex = /^\d{7,8}-[0-9kK]{1}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const telefonoRegex = /^\+56\s9\s\d{4}\s\d{4}$/;
+
+    if (!nombreRegex.test(nombre)) {
+      return "Nombre inválido (solo letras)";
+    }
+
+    if (!rutRegex.test(rut)) {
+      return "RUT inválido (ej: 21799825-5)";
+    }
+
+    if (!emailRegex.test(email)) {
+      return "Correo inválido";
+    }
+
+    if (!telefonoRegex.test(telefono)) {
+      return "Teléfono inválido (+56 9 1234 5678)";
+    }
+
+    if (password.length < 6) {
+      return "La contraseña debe tener al menos 6 caracteres";
+    }
+
+    return null;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setMsg("");
+
+    const error = validar();
+    if (error) {
+      setMsg(error);
+      return;
+    }
 
     try {
       const res = await fetch("http://localhost:5000/api/auth/register", {
@@ -19,21 +65,22 @@ const Register = () => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ nombre, email, password })
+        body: JSON.stringify(form)
       });
 
       const data = await res.json();
 
       if (res.ok) {
         setMsg("Usuario registrado correctamente");
-
-        // redirigir al login
-        setTimeout(() => {
-          navigate("/login");
-        }, 1200);
-
+        setForm({
+          nombre: "",
+          rut: "",
+          email: "",
+          telefono: "",
+          password: ""
+        });
       } else {
-        setMsg(" X " + data.msg);
+        setMsg(data.msg || "Error al registrar");
       }
 
     } catch (error) {
@@ -43,62 +90,82 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900">
-      
-      <form 
-        onSubmit={handleRegister} 
-        className="bg-gray-800 text-white p-8 rounded-2xl shadow-2xl w-80"
+    <div className="flex justify-center items-center min-h-screen bg-[#fffdf0]">
+
+      <form
+        onSubmit={handleSubmit}
+        className="bg-[#fcf1d7] p-8 rounded-2xl shadow-xl w-96 border border-[#e52421]/20"
       >
-        
-        <h2 className="text-2xl font-bold mb-6 text-center">
+
+        <h2 className="text-2xl font-bold mb-6 text-center text-[#781040]">
           Crear Cuenta
         </h2>
 
-        {/* NOMBRE */}
         <input
           type="text"
+          name="nombre"
           placeholder="Nombre completo"
-          className="w-full mb-4 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-gray-400"
-          onChange={(e) => setNombre(e.target.value)}
+          value={form.nombre}
+          onChange={handleChange}
+          className="w-full mb-3 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e52421]"
         />
 
-        {/* EMAIL */}
+        <input
+          type="text"
+          name="rut"
+          placeholder="RUT (21799825-5)"
+          value={form.rut}
+          onChange={handleChange}
+          className="w-full mb-3 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e52421]"
+        />
+
         <input
           type="email"
-          placeholder="Correo electrónico"
-          className="w-full mb-4 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-gray-400"
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          placeholder="Correo"
+          value={form.email}
+          onChange={handleChange}
+          className="w-full mb-3 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e52421]"
         />
 
-        {/* PASSWORD */}
+        <input
+          type="text"
+          name="telefono"
+          placeholder="+56 9 1234 5678"
+          value={form.telefono}
+          onChange={handleChange}
+          className="w-full mb-3 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e52421]"
+        />
+
         <input
           type="password"
+          name="password"
           placeholder="Contraseña"
-          className="w-full mb-4 p-2 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-gray-400"
-          onChange={(e) => setPassword(e.target.value)}
+          value={form.password}
+          onChange={handleChange}
+          className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e52421]"
         />
 
-        {/* MENSAJE */}
         {msg && (
-          <p className="text-sm text-center mb-3">
+          <p className={`text-sm text-center mb-3 ${
+            msg === "Usuario registrado correctamente"
+              ? "text-green-500"
+              : "text-red-500"
+          }`}>
             {msg}
           </p>
         )}
 
-        {/* BOTÓN */}
-        <button className="w-full bg-gray-600 hover:bg-gray-500 transition duration-300 py-2 rounded font-semibold">
+        <button className="w-full bg-[#781040] hover:bg-[#5a0c30] text-white py-2 rounded-lg transition duration-300">
           Registrarse
         </button>
 
-        {/* LINK LOGIN */}
-        <p className="text-center text-sm mt-4 text-gray-400">
+        {/* VOLVER A LOGIN */}
+        <p className="text-sm text-center mt-4 text-gray-600">
           ¿Ya tienes cuenta?{" "}
-          <span 
-            className="text-gray-300 hover:underline cursor-pointer"
-            onClick={() => navigate("/login")}
-          >
+          <a href="/login" className="text-[#e52421] font-semibold hover:underline">
             Inicia sesión
-          </span>
+          </a>
         </p>
 
       </form>
@@ -107,4 +174,3 @@ const Register = () => {
 };
 
 export default Register;
-
