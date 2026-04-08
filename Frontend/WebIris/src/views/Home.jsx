@@ -83,7 +83,11 @@ const Home = () => {
         </div>
       </div>
 
+<<<<<<< HEAD:Frontend/WebIris/src/views/Home.jsx
       {/* NUESTRA EXPERIENCIA */}
+=======
+      {/* INFO */}
+>>>>>>> 2b00018c1ceb0ce74c10fe443f54ee4e2d36af4b:Frontend/src/pages/Home.jsx
       <section className="py-10 md:py-16 px-4 md:px-6 max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-10 items-center">
         
         {/*RESPONSIVE PENDIENTE DE LA IMAGEN */}

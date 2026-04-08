@@ -12,7 +12,7 @@ const getToken = async (req, res, next) => {
 
     if(authorization){
         const [type, token] = authorization.split(' ');
-        const decoded = jwt.verify(token, process.env.SECRET) 
+        const decoded = jwt.verify(token, process.env.JWT_SECRET) 
         req.user = await User.findById(decoded.id).select('-name')
         return type === "Bearer" ? token: null;
     } else {
@@ -23,7 +23,7 @@ const getToken = async (req, res, next) => {
 
 
 const auth = expressjwt({
-    secret: process.env.SECRET,
+    secret: process.env.JWT_SECRET,
     algorithms: ['HS256'],
     userProperty: 'user',
     getToken

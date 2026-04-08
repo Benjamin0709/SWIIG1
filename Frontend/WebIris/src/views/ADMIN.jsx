@@ -54,7 +54,7 @@ const AdminPanel = () => {
       </div>
 
       <div className="max-w-4xl mx-auto space-y-4">
-        {doctors.map((d) => (
+        {Especialista.map((d) => (
           <div key={d.id}
             className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between"
           >
